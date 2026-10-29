@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EduAgenda — Sistema de Agendamento Escolar</title>
+  <link rel="stylesheet" href="css/global.css" />
+  <link rel="stylesheet" href="css/login.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body class="login-page">
+
+  <!-- ===== LOGIN ===== -->
+  <div id="page-login" class="page active">
+    <div class="login-bg">
+      <div class="login-blob blob-1"></div>
+      <div class="login-blob blob-2"></div>
+      <div class="login-blob blob-3"></div>
+    </div>
+
+    <div class="login-container">
+      <div class="login-brand">
+        <div class="brand-icon">
+          <i class="fa-solid fa-graduation-cap"></i>
+        </div>
+        <h1>EduAgenda</h1>
+        <p>Sistema de Agendamento Escolar</p>
+      </div>
+
+      <div class="login-card">
+        <h2>Bem-vindo de volta</h2>
+        <p class="login-subtitle">Faça login para acessar o sistema</p>
+
+        <div class="login-tabs">
+          <button class="tab-btn active" data-role="aluno">Aluno</button>
+          <button class="tab-btn" data-role="professor">Professor</button>
+          <button class="tab-btn" data-role="admin">Admin</button>
+        </div>
+
+        <form id="login-form" class="login-form">
+          <div class="form-group">
+            <label for="login-email">
+              <i class="fa-solid fa-envelope"></i> E-mail
+            </label>
+            <input type="email" id="login-email" placeholder="seu@email.com" required />
+          </div>
+          <div class="form-group">
+            <label for="login-password">
+              <i class="fa-solid fa-lock"></i> Senha
+            </label>
+            <div class="input-password">
+              <input type="password" id="login-password" placeholder="••••••••" required />
+              <button type="button" class="toggle-password" tabindex="-1">
+                <i class="fa-solid fa-eye"></i>
+              </button>
+            </div>
+          </div>
+          <div id="login-error" class="login-error hidden">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <span>Credenciais inválidas. Tente novamente.</span>
+          </div>
+          <button type="submit" class="btn btn-primary btn-full">
+            <span>Entrar</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </form>
+
+        <div class="login-hint">
+          <p><strong>Contas de demonstração:</strong></p>
+          <div class="demo-accounts">
+            <div class="demo-item" data-email="aluno@escola.edu.br" data-pass="aluno123" data-role="aluno">
+              <i class="fa-solid fa-user-graduate"></i>
+              <div>
+                <span>aluno@escola.edu.br</span>
+                <small>Senha: aluno123</small>
+              </div>
+            </div>
+            <div class="demo-item" data-email="prof@escola.edu.br" data-pass="prof123" data-role="professor">
+              <i class="fa-solid fa-chalkboard-teacher"></i>
+              <div>
+                <span>prof@escola.edu.br</span>
+                <small>Senha: prof123</small>
+              </div>
+            </div>
+            <div class="demo-item" data-email="admin@escola.edu.br" data-pass="admin123" data-role="admin">
+              <i class="fa-solid fa-shield-halved"></i>
+              <div>
+                <span>admin@escola.edu.br</span>
+                <small>Senha: admin123</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== APP PRINCIPAL ===== -->
+  <div id="page-app" class="page hidden">
+
+    <!-- SIDEBAR -->
+    <aside id="sidebar" class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-brand">
+          <div class="brand-icon-sm">
+            <i class="fa-solid fa-graduation-cap"></i>
+          </div>
+          <span>EduAgenda</span>
+        </div>
+        <button id="sidebar-close" class="sidebar-close" aria-label="Fechar menu">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="sidebar-user">
+        <div class="user-avatar" id="nav-avatar">A</div>
+        <div class="user-info">
+          <span class="user-name" id="nav-name">Carregando...</span>
+          <span class="user-role" id="nav-role">—</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <ul>
+          <li>
+            <a href="#" class="nav-item active" data-page="dashboard">
+              <i class="fa-solid fa-house"></i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="nav-item" data-page="notebooks">
+              <i class="fa-solid fa-laptop"></i>
+              <span>Carrinho de Notebooks</span>
+              <span class="badge badge-info" id="badge-notebooks">5</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="nav-item" data-page="informatica">
+              <i class="fa-solid fa-desktop"></i>
+              <span>Sala de Informática</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="nav-item" data-page="biblioteca">
+              <i class="fa-solid fa-book-open"></i>
+              <span>Biblioteca</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="nav-item" data-page="calendario">
+              <i class="fa-solid fa-calendar-days"></i>
+              <span>Calendário</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="nav-item" data-page="chat">
+              <i class="fa-solid fa-comments"></i>
+              <span>Chat</span>
+              <span class="badge badge-danger" id="badge-chat">2</span>
+            </a>
+          </li>
+          <li id="nav-admin" class="hidden">
+            <a href="#" class="nav-item" data-page="admin">
+              <i class="fa-solid fa-shield-halved"></i>
+              <span>Painel Admin</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="nav-item" id="btn-logout">
+          <i class="fa-solid fa-right-from-bracket"></i>
+          <span>Sair</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- OVERLAY MOBILE -->
+    <div id="sidebar-overlay" class="sidebar-overlay hidden"></div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-wrapper">
+      <!-- TOP BAR -->
+      <header class="topbar">
+        <button id="sidebar-toggle" class="sidebar-toggle" aria-label="Abrir menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <div class="topbar-title" id="topbar-title">Dashboard</div>
+        <div class="topbar-actions">
+          <button class="topbar-btn" id="notif-btn" aria-label="Notificações">
+            <i class="fa-solid fa-bell"></i>
+            <span class="notif-dot"></span>
+          </button>
+          <div class="topbar-avatar" id="topbar-avatar">A</div>
+        </div>
+      </header>
+
+      <!-- NOTIFICATIONS DROPDOWN -->
+      <div id="notif-dropdown" class="notif-dropdown hidden">
+        <div class="notif-header">
+          <span>Notificações</span>
+          <button id="notif-clear">Limpar</button>
+        </div>
+        <ul id="notif-list" class="notif-list"></ul>
+      </div>
+
+      <!-- PAGES CONTAINER -->
+      <main class="content">
+
+        <!-- ===== DASHBOARD ===== -->
+        <section id="sec-dashboard" class="section active">
+          <div class="section-header">
+            <div>
+              <h2 id="dashboard-greeting">Bom dia! 👋</h2>
+              <p class="text-muted">Veja o resumo de hoje</p>
+            </div>
+            <div class="header-date">
+              <i class="fa-solid fa-calendar"></i>
+              <span id="current-date"></span>
+            </div>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-card stat-blue">
+              <div class="stat-icon"><i class="fa-solid fa-laptop"></i></div>
+              <div class="stat-info">
+                <span class="stat-label">Notebooks Disponíveis</span>
+                <span class="stat-value" id="stat-notebooks">18</span>
+                <span class="stat-sub">de 30 total</span>
+              </div>
+            </div>
+            <div class="stat-card stat-green">
+              <div class="stat-icon"><i class="fa-solid fa-desktop"></i></div>
+              <div class="stat-info">
+                <span class="stat-label">Sala de Informática</span>
+                <span class="stat-value" id="stat-informatica">Livre</span>
+                <span class="stat-sub">Próx. reserva 14h</span>
+              </div>
+            </div>
+            <div class="stat-card stat-yellow">
+              <div class="stat-icon"><i class="fa-solid fa-book-open"></i></div>
+              <div class="stat-info">
+                <span class="stat-label">Biblioteca</span>
+                <span class="stat-value" id="stat-biblioteca">3</span>
+                <span class="stat-sub">reservas hoje</span>
+              </div>
+            </div>
+            <div class="stat-card stat-purple">
+              <div class="stat-icon"><i class="fa-solid fa-comments"></i></div>
+              <div class="stat-info">
+                <span class="stat-label">Mensagens</span>
+                <span class="stat-value" id="stat-msgs">2</span>
+                <span class="stat-sub">não lidas</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="dashboard-grid">
+            <div class="card">
+              <div class="card-header">
+                <h3><i class="fa-solid fa-clock-rotate-left"></i> Meus Agendamentos</h3>
+                <a href="#" class="link-sm" data-page="calendario">Ver todos</a>
+              </div>
+              <div class="card-body">
+                <ul class="schedule-list" id="my-schedules-list"></ul>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <h3><i class="fa-solid fa-bolt"></i> Acesso Rápido</h3>
+              </div>
+              <div class="card-body quick-actions">
+                <button class="quick-btn" data-page="notebooks">
+                  <i class="fa-solid fa-laptop"></i>
+                  <span>Reservar Notebook</span>
+                </button>
+                <button class="quick-btn" data-page="informatica">
+                  <i class="fa-solid fa-desktop"></i>
+                  <span>Sala de Informática</span>
+                </button>
+                <button class="quick-btn" data-page="biblioteca">
+                  <i class="fa-solid fa-book-open"></i>
+                  <span>Biblioteca</span>
+                </button>
+                <button class="quick-btn" data-page="chat">
+                  <i class="fa-solid fa-comments"></i>
+                  <span>Falar com Funcionário</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card mt-4">
+            <div class="card-header">
+              <h3><i class="fa-solid fa-chart-bar"></i> Disponibilidade de Hoje</h3>
+            </div>
+            <div class="card-body">
+              <div class="availability-grid" id="availability-grid"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== NOTEBOOKS ===== -->
+        <section id="sec-notebooks" class="section hidden">
+          <div class="section-header">
+            <div>
+              <h2><i class="fa-solid fa-laptop"></i> Carrinho de Notebooks</h2>
+              <p class="text-muted">Agende a utilização de notebooks para sua turma</p>
+            </div>
+          </div>
+
+          <div class="notebook-status-bar">
+            <div class="status-item">
+              <span class="status-dot dot-green"></span>
+              <span><strong id="nb-available">18</strong> disponíveis</span>
+            </div>
+            <div class="status-item">
+              <span class="status-dot dot-red"></span>
+              <span><strong id="nb-in-use">12</strong> em uso</span>
+            </div>
+            <div class="status-item">
+              <span class="status-dot dot-yellow"></span>
+              <span><strong>30</strong> total</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h3>Fazer Agendamento</h3>
+            </div>
+            <div class="card-body">
+              <form id="notebook-form" class="form-grid">
+                <div class="form-group">
+                  <label><i class="fa-solid fa-calendar"></i> Data</label>
+                  <input type="date" id="nb-date" required />
+                </div>
+                <div class="form-group">
+                  <label><i class="fa-solid fa-clock"></i> Horário de Início</label>
+                  <select id="nb-time-start">
+                    <option value="07:00">07:00</option>
+                    <option value="08:00">08:00</option>
+                    <option value="09:00">09:00</option>
+                    <option value="10:00">10:00</option>
+                    <option value="11:00">11:00</option>
+                    <option value="13:00">13:00</option>
+                    <option value="14:00">14:00</option>
+                    <option value="15:00">15:00</option>
+                    <option value="16:00">16:00</option>
+                    <option value="17:00">17:00</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label><i class="fa-solid fa-clock"></i> Horário de Fim</label>
+                  <select id="nb-time-end">
+                    <option value="08:00">08:00</option>
+                    <option value="09:00">09:00</option>
+                    <option value="10:00">10:00</option>
+                    <option value="11:00">11:00</option>
+                    <option value="12:00">12:00</option>
+                    <option value="14:00">14:00</option>
+                    <option value="15:00">15:00</option>
+                    <option value="16:00">16:00</option>
+                    <option value="17:00">17:00</option>
+                    <option value="18:00">18:00</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label><i class="fa-solid fa-laptop"></i> Quantidade de Notebooks</label>
+                  <input type="number" id="nb-quantity" min="1" max="30" value="1" required />
+                </div>
+                <div class="form-group">
+                  <label><i class="fa-solid fa-users"></i> Turma / Disciplina</label>
+                  <input type="text" id="nb-turma" placeholder="Ex: 3º Ano B — Matemática" required />
+                </div>
+                <div class="form-group">
+                  <label><i class="fa-solid fa-comment"></i> Observação</label>
+                  <input type="text" id="nb-obs" placeholder="Opcional" />
+                </div>
+                <div class="form-actions">
+                  <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-check"></i> Confirmar Agendamento
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div class="card mt-4">
+            <div class="card-header">
+              <h3><i class="fa-solid fa-list"></i> Agendamentos de Notebooks</h3>
+              <div class="filter-group">
+                <button class="filter-btn active" data-filter="all">Todos</button>
+                <button class="filter-btn" data-filter="pendente">Pendentes</button>
+                <button class="filter-btn" data-filter="confirmado">Confirmados</button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="table-wrapper">
+                <table class="data-table" id="notebooks-table">
+                  <thead>
+                    <tr>
+                      <th>Data</th>
+                      <th>Horário</th>
+                      <th>Qtd</th>
+                      <th>Turma/Disciplina</th>
+                      <th>Solicitante</th>
+                      <th>Status</th>
+                      <th>Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody id="notebooks-tbody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== SALA DE INFORMÁTICA ===== -->
+        <section id="sec-informatica" class="section hidden">
+          <div class="section-header">
+            <div>
+              <h2><i class="fa-solid fa-desktop"></i> Sala de Informática</h2>
+              <p class="text-muted">Reserve horários para uso da sala de informática</p>
+            </div>
+          </div>
+
+          <div class="room-info-card">
+            <div class="room-icon"><i class="fa-solid fa-desktop"></i></div>
+            <div class="room-details">
+              <h3>Sala de Informática — Bloco B</h3>
+              <div class="room-specs">
+                <span><i class="fa-solid fa-computer"></i> 25 computadores</span>
+                <span><i class="fa-solid fa-wifi"></i> Wi-Fi disponível</span>
+                <span><i class="fa-solid fa-users"></i> Capacidade: 30 alunos</span>
+                <span><i class="fa-solid fa-projector"></i> Projetor incluso</span>
+              </div>
+            </div>
+            <div class="room-status" id="informatica-status">
+              <span class="status-badge status-free">Livre Agora</span>
+            </div>
+          </div>
+
+          <div class="card mt-4">
+            <div class="card-header">
+              <h3>Fazer Reserva</h3>
+            </div>
+            <div class="card-body">
+              <form id="informatica-form" class="form-grid">
+                <div class="form-group">
+                  <label><i class="fa-solid fa-calendar"></i> Data</label>
+                  <input type="date" id="inf-date" required />
+                </div>
+                <div class="form-group">
+                  <label><i class="fa-solid fa-clock"></i> Período</label>
+                  <select id="inf-period">
+                    <option value="07:00-08:00">1º aula (07:00 - 08:00)</option>
+                    <option value="08:00-09:00">2º aula (08:00 - 09:00)</option>
+                    <option value="09:00-10:00">3º aula (09:00 - 10:00)</option>
+                    <option value="10:15-11:15">4º aula (10:15 - 11:15)</option>
+                    <option value="11:15-12:15">5º aula (11:15 - 12:15)</option>
+                    <option value="13:00-14:00">6º aula (13:00 - 14:00)</option>
+                    <option value="14:00-15:00">7º aula (14:00 - 15:00)</option>
+                    <option value="15:00-16:00">8º aula (15:00 - 16:00)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label><i class="fa-solid fa-users"></i> Turma</label>
+                  <input type="text" id="inf-turma" placeholder="Ex: 2º Ano A" required />
+                </div>
+                <div class="form-group">
+                  <label><i class="fa-solid fa-book"></i> Disciplina</label>
+                  <input type="text" id="inf-disciplina" placeholder="Ex: Programação Web" required />
+                </div>
+                <div class="form-group form-group-full">
+                  <label><i class="fa-solid fa-comment"></i> Objetivo da aula</label>
+                  <textarea id="inf-objetivo" placeholder="Descreva brevemente o objetivo da aula..." rows="3"></textarea>
+                </div>
+                <div class="form-actions">
+                  <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-check"></i> Reservar Sala
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div class="card mt-4">
+            <div class="card-header">
+              <h3><i class="fa-solid fa-calendar-week"></i> Grade de Horários da Semana</h3>
+            </div>
+            <div class="card-body">
+              <div class="timetable-wrapper" id="informatica-timetable"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== BIBLIOTECA ===== -->
+        <section id="sec-biblioteca" class="section hidden">
+          <div class="section-header">
+            <div>
+              <h2><i class="fa-solid fa-book-open"></i> Biblioteca</h2>
+              <p class="text-muted">Reserve horários para uso da biblioteca</p>
+            </div>
+          </div>
+
+          <div class="room-info-card">
+            <div class="room-icon bib-icon"><i class="fa-solid fa-book-open"></i></div>
+            <div class="room-details">
+              <h3>Biblioteca Central</h3>
+              <div class="room-specs">
+                <span><i class="fa-solid fa-chair"></i> 40 lugares</span>
+                <span><i class="fa-solid fa-computer"></i> 5 computadores</span>
+                <span><i class="fa-solid fa-book"></i> +5000 volumes</span>
+                <span><i class="fa-solid fa-wifi"></i> Wi-Fi disponível</span>
+              </div>
+            </div>
+            <div class="room-status">
+              <span class="status-badge status-free">Aberta Agora</span>
+            </div>
+          </div>
+
+          <div class="card mt-4">
+            <div class="card-header">
+              <h3>Fazer Reserva</h3>
+            </div>
+            <div class="card-body">
+              <form id="biblioteca-form" class="form-grid">
+                <div class="form-group">
+                  <label><i class="fa-solid fa-calendar"></i> Data</label>
+                  <input type="date" id="bib-date" required />
+                </div>
+                <div class="form-group">
+                  <label><i class="fa-solid fa-clock"></i> Horário de Início</label>
+                  <select id="bib-time-start">
+                    <option value="07:00">07:00</option>
+                    <option value="08:00">08:00</option>
+                    <option value="09:00">09:00</option>
+                    <option value="10:00">10:00</option>
+                    <option value="11:00">11:00</option>
+                    <option value="13:00">13:00</option>
+                    <option value="14:00">14:00</option>
+                    <option value="15:00">15:00</option>
+                    <option value="16:00">16:00</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label><i class="fa-solid fa-clock"></i> Horário de Fim</label>
+                  <select id="bib-time-end">
+                    <option value="08:00">08:00</option>
+                    <option value="09:00">09:00</option>
+                    <option value="10:00">10:00</option>
+                    <option value="11:00">11:00</option>
+                    <option value="12:00">12:00</option>
+                    <option value="14:00">14:00</option>
+                    <option value="15:00">15:00</option>
+                    <option value="16:00">16:00</option>
+                    <option value="17:00">17:00</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label><i class="fa-solid fa-user-group"></i> Tipo de Reserva</label>
+                  <select id="bib-tipo">
+                    <option value="individual">Individual</option>
+                    <option value="grupo">Grupo / Turma</option>
+                    <option value="aula">Aula com Professor</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label><i class="fa-solid fa-users"></i> Turma / Nome</label>
+                  <input type="text" id="bib-turma" placeholder="Ex: João Silva ou 1º Ano C" required />
+                </div>
+                <div class="form-group">
+                  <label><i class="fa-solid fa-comment"></i> Finalidade</label>
+                  <input type="text" id="bib-finalidade" placeholder="Ex: Pesquisa, Leitura, Trabalho em grupo" />
+                </div>
+                <div class="form-actions">
+                  <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-check"></i> Reservar Biblioteca
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div class="card mt-4">
+            <div class="card-header">
+              <h3><i class="fa-solid fa-calendar-week"></i> Grade de Horários da Semana</h3>
+            </div>
+            <div class="card-body">
+              <div class="timetable-wrapper" id="biblioteca-timetable"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== CALENDÁRIO ===== -->
+        <section id="sec-calendario" class="section hidden">
+          <div class="section-header">
+            <div>
+              <h2><i class="fa-solid fa-calendar-days"></i> Calendário</h2>
+              <p class="text-muted">Visualize todos os agendamentos</p>
+            </div>
+          </div>
+
+          <div class="calendar-layout">
+            <div class="card calendar-card">
+              <div class="calendar-nav">
+                <button id="cal-prev"><i class="fa-solid fa-chevron-left"></i></button>
+                <h3 id="cal-title"></h3>
+                <button id="cal-next"><i class="fa-solid fa-chevron-right"></i></button>
+              </div>
+              <div class="calendar-legend">
+                <span><span class="leg-dot leg-blue"></span>Notebooks</span>
+                <span><span class="leg-dot leg-green"></span>Informática</span>
+                <span><span class="leg-dot leg-yellow"></span>Biblioteca</span>
+              </div>
+              <div class="calendar-grid" id="calendar-grid"></div>
+            </div>
+
+            <div class="card calendar-side">
+              <div class="card-header">
+                <h3 id="cal-day-title">Agendamentos do Dia</h3>
+              </div>
+              <div class="card-body">
+                <ul id="cal-day-events" class="schedule-list"></ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== CHAT ===== -->
+        <section id="sec-chat" class="section hidden">
+          <div class="section-header">
+            <div>
+              <h2><i class="fa-solid fa-comments"></i> Chat com Funcionários</h2>
+              <p class="text-muted">Converse diretamente com os funcionários da escola</p>
+            </div>
+          </div>
+
+          <div class="chat-layout">
+            <div class="chat-sidebar">
+              <div class="chat-search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="chat-search" placeholder="Buscar funcionário..." />
+              </div>
+              <ul class="contact-list" id="contact-list"></ul>
+            </div>
+
+            <div class="chat-main" id="chat-main">
+              <div class="chat-empty" id="chat-empty">
+                <i class="fa-solid fa-comment-dots"></i>
+                <p>Selecione um funcionário para iniciar a conversa</p>
+              </div>
+
+              <div class="chat-window hidden" id="chat-window">
+                <div class="chat-header">
+                  <div class="chat-contact-info">
+                    <div class="contact-avatar" id="chat-contact-avatar">F</div>
+                    <div>
+                      <span class="contact-name" id="chat-contact-name">—</span>
+                      <span class="contact-status" id="chat-contact-status">online</span>
+                    </div>
+                  </div>
+                  <button class="topbar-btn" title="Informações">
+                    <i class="fa-solid fa-circle-info"></i>
+                  </button>
+                </div>
+
+                <div class="chat-messages" id="chat-messages"></div>
+
+                <div class="chat-input-area">
+                  <input type="text" id="chat-input" placeholder="Digite uma mensagem..." />
+                  <button class="btn btn-primary chat-send" id="chat-send">
+                    <i class="fa-solid fa-paper-plane"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== ADMIN ===== -->
+        <section id="sec-admin" class="section hidden">
+          <div class="section-header">
+            <div>
+              <h2><i class="fa-solid fa-shield-halved"></i> Painel Administrativo</h2>
+              <p class="text-muted">Gerencie todos os recursos e usuários</p>
+            </div>
+          </div>
+
+          <div class="admin-tabs">
+            <button class="admin-tab active" data-tab="overview">Visão Geral</button>
+            <button class="admin-tab" data-tab="agendamentos">Agendamentos</button>
+            <button class="admin-tab" data-tab="usuarios">Usuários</button>
+            <button class="admin-tab" data-tab="recursos">Recursos</button>
+          </div>
+
+          <!-- Overview -->
+          <div id="admin-tab-overview" class="admin-tab-content active">
+            <div class="stats-grid mt-4">
+              <div class="stat-card stat-blue">
+                <div class="stat-icon"><i class="fa-solid fa-calendar-check"></i></div>
+                <div class="stat-info">
+                  <span class="stat-label">Total Agendamentos</span>
+                  <span class="stat-value" id="admin-total-agend">0</span>
+                  <span class="stat-sub">este mês</span>
+                </div>
+              </div>
+              <div class="stat-card stat-green">
+                <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
+                <div class="stat-info">
+                  <span class="stat-label">Usuários Ativos</span>
+                  <span class="stat-value">12</span>
+                  <span class="stat-sub">professores e alunos</span>
+                </div>
+              </div>
+              <div class="stat-card stat-yellow">
+                <div class="stat-icon"><i class="fa-solid fa-clock"></i></div>
+                <div class="stat-info">
+                  <span class="stat-label">Pendentes</span>
+                  <span class="stat-value" id="admin-pending">0</span>
+                  <span class="stat-sub">aguardando aprovação</span>
+                </div>
+              </div>
+              <div class="stat-card stat-red">
+                <div class="stat-icon"><i class="fa-solid fa-xmark"></i></div>
+                <div class="stat-info">
+                  <span class="stat-label">Cancelados</span>
+                  <span class="stat-value" id="admin-cancelled">0</span>
+                  <span class="stat-sub">este mês</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="card mt-4">
+              <div class="card-header">
+                <h3><i class="fa-solid fa-chart-line"></i> Últimas Atividades</h3>
+              </div>
+              <div class="card-body">
+                <ul class="activity-list" id="activity-list"></ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Agendamentos Admin -->
+          <div id="admin-tab-agendamentos" class="admin-tab-content hidden">
+            <div class="card mt-4">
+              <div class="card-header">
+                <h3>Todos os Agendamentos</h3>
+                <div class="filter-group">
+                  <select id="admin-filter-type">
+                    <option value="all">Todos os tipos</option>
+                    <option value="notebook">Notebooks</option>
+                    <option value="informatica">Informática</option>
+                    <option value="biblioteca">Biblioteca</option>
+                  </select>
+                  <select id="admin-filter-status">
+                    <option value="all">Todos os status</option>
+                    <option value="pendente">Pendente</option>
+                    <option value="confirmado">Confirmado</option>
+                    <option value="cancelado">Cancelado</option>
+                  </select>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="table-wrapper">
+                  <table class="data-table" id="admin-table">
+                    <thead>
+                      <tr>
+                        <th>Tipo</th>
+                        <th>Data</th>
+                        <th>Horário</th>
+                        <th>Solicitante</th>
+                        <th>Detalhes</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                      </tr>
+                    </thead>
+                    <tbody id="admin-tbody"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Usuários Admin -->
+          <div id="admin-tab-usuarios" class="admin-tab-content hidden">
+            <div class="card mt-4">
+              <div class="card-header">
+                <h3>Usuários do Sistema</h3>
+              </div>
+              <div class="card-body">
+                <div class="users-grid" id="users-grid"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recursos Admin -->
+          <div id="admin-tab-recursos" class="admin-tab-content hidden">
+            <div class="resources-grid mt-4">
+              <div class="card resource-card">
+                <div class="resource-icon nb-icon"><i class="fa-solid fa-laptop"></i></div>
+                <h3>Carrinho de Notebooks</h3>
+                <div class="resource-stat">
+                  <span class="r-num" id="res-nb-avail">18</span>
+                  <span>/ 30 disponíveis</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill" id="res-nb-bar" style="width:60%"></div>
+                </div>
+                <div class="resource-actions">
+                  <button class="btn btn-outline btn-sm" onclick="App.updateResource('notebooks', 1)">
+                    <i class="fa-solid fa-plus"></i> Adicionar
+                  </button>
+                  <button class="btn btn-outline btn-sm" onclick="App.updateResource('notebooks', -1)">
+                    <i class="fa-solid fa-minus"></i> Remover
+                  </button>
+                </div>
+              </div>
+
+              <div class="card resource-card">
+                <div class="resource-icon inf-icon"><i class="fa-solid fa-desktop"></i></div>
+                <h3>Sala de Informática</h3>
+                <div class="resource-stat">
+                  <span class="r-num">25</span>
+                  <span>computadores</span>
+                </div>
+                <div class="resource-toggle">
+                  <label class="toggle">
+                    <input type="checkbox" id="toggle-informatica" checked />
+                    <span class="slider"></span>
+                  </label>
+                  <span id="label-informatica">Sala Ativa</span>
+                </div>
+              </div>
+
+              <div class="card resource-card">
+                <div class="resource-icon bib-icon2"><i class="fa-solid fa-book-open"></i></div>
+                <h3>Biblioteca</h3>
+                <div class="resource-stat">
+                  <span class="r-num">40</span>
+                  <span>lugares disponíveis</span>
+                </div>
+                <div class="resource-toggle">
+                  <label class="toggle">
+                    <input type="checkbox" id="toggle-biblioteca" checked />
+                    <span class="slider"></span>
+                  </label>
+                  <span id="label-biblioteca">Biblioteca Ativa</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- TOAST CONTAINER -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- MODAL -->
+  <div id="modal-overlay" class="modal-overlay hidden">
+    <div class="modal" id="modal">
+      <div class="modal-header">
+        <h3 id="modal-title">Confirmação</h3>
+        <button class="modal-close" id="modal-close"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" id="modal-cancel">Cancelar</button>
+        <button class="btn btn-primary" id="modal-confirm">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
