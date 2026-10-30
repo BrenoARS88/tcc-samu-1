@@ -63,64 +63,102 @@ const DB = {
     { id: 3, title: 'Biblioteca Reservada', text: 'Sua reserva para 09:00 foi confirmada', icon: 'fa-book-open', color: '#F59E0B', time: '1h atrás'       },
   ],
 
+  /* ---- Incidentes ---- */
+  incidentes: [
+    {
+      id: 20, local: 'notebook', tipo: 'notebook_danificado', quantidade: 2,
+      descricao: 'Dois notebooks com tela quebrada encontrados após uso do 3º Ano A.',
+      userName: 'Prof. Carlos', data: DB_todayPlus(-2), aulaLabel: 'Manhã — 3ª Aula (08:40 – 09:30)',
+      status: 'aberto', reportadoEm: new Date().toISOString()
+    },
+    {
+      id: 21, local: 'informatica', tipo: 'teclado_mouse', quantidade: 3,
+      descricao: 'Três mouses sem funcionar na fileira do fundo.',
+      userName: 'Prof. Fernanda', data: DB_todayPlus(-1), aulaLabel: 'Tarde — 2ª Aula (13:50 – 14:40)',
+      status: 'em_andamento', reportadoEm: new Date().toISOString()
+    },
+    {
+      id: 22, local: 'biblioteca', tipo: 'livro_danificado', quantidade: 1,
+      descricao: 'Livro "Dom Casmurro" devolvido com páginas rasgadas.',
+      userName: 'Ana Lima', data: DB_todayPlus(0), aulaLabel: 'Manhã — 5ª Aula (10:40 – 11:30)',
+      status: 'aberto', reportadoEm: new Date().toISOString()
+    },
+  ],
+
   /* Próximo ID */
-  _nextId: 10,
+  _nextId: 25,
   nextId() { return ++this._nextId; },
 };
 
-/* ---- Agendamentos iniciais (datas dinâmicas) ---- */
+/* ---- Agendamentos iniciais (datas dinâmicas, formato por aulas) ---- */
 DB.agendamentos = [
   {
     id: 1, tipo: 'notebook', userId: 1, userName: 'Ana Lima',
-    data: DB_todayPlus(0), horario: '08:00 - 09:00', quantidade: 15,
-    turma: '3º Ano A — Matemática', obs: 'Atividade avaliativa',
-    status: 'confirmado', criadoEm: new Date().toISOString()
+    data: DB_todayPlus(0),
+    periodo: 'manha', aulaNum: 3, aulaLabel: 'Manhã — 3ª Aula (08:40 – 09:30)',
+    horario: 'Manhã — 3ª Aula (08:40 – 09:30)',
+    quantidade: 15, turma: '3º Ano A — Matemática', obs: 'Atividade avaliativa',
+    incidente: null, status: 'confirmado', criadoEm: new Date().toISOString()
   },
   {
     id: 2, tipo: 'notebook', userId: 2, userName: 'Prof. Carlos',
-    data: DB_todayPlus(1), horario: '10:00 - 11:00', quantidade: 20,
-    turma: '2º Ano B — Português', obs: '',
-    status: 'pendente', criadoEm: new Date().toISOString()
+    data: DB_todayPlus(1),
+    periodo: 'manha', aulaNum: 5, aulaLabel: 'Manhã — 5ª Aula (10:40 – 11:30)',
+    horario: 'Manhã — 5ª Aula (10:40 – 11:30)',
+    quantidade: 20, turma: '2º Ano B — Português', obs: '',
+    incidente: null, status: 'pendente', criadoEm: new Date().toISOString()
   },
   {
     id: 3, tipo: 'informatica', userId: 2, userName: 'Prof. Carlos',
-    data: DB_todayPlus(0), horario: '13:00 - 14:00', periodo: '13:00-14:00',
+    data: DB_todayPlus(0),
+    periodo: 'tarde', aulaNum: 2, aulaLabel: 'Tarde — 2ª Aula (13:50 – 14:40)',
+    horario: 'Tarde — 2ª Aula (13:50 – 14:40)',
     turma: '1º Ano C', disciplina: 'Programação Web',
-    objetivo: 'Introdução ao HTML', status: 'confirmado',
-    criadoEm: new Date().toISOString()
-  },
-  {
-    id: 4, tipo: 'informatica', userId: 5, userName: 'Prof. Fernanda',
-    data: DB_todayPlus(0), horario: '14:00 - 15:00', periodo: '14:00-15:00',
-    turma: '2º Ano A', disciplina: 'Design Gráfico',
-    objetivo: 'Photoshop básico', status: 'pendente',
-    criadoEm: new Date().toISOString()
-  },
-  {
-    id: 5, tipo: 'biblioteca', userId: 1, userName: 'Ana Lima',
-    data: DB_todayPlus(0), horario: '09:00 - 10:00',
-    turma: 'Ana Lima', tipo_reserva: 'individual',
-    finalidade: 'Pesquisa para trabalho', status: 'confirmado',
-    criadoEm: new Date().toISOString()
-  },
-  {
-    id: 6, tipo: 'biblioteca', userId: 4, userName: 'Maria Costa',
-    data: DB_todayPlus(1), horario: '10:00 - 11:00',
-    turma: '2º Ano B', tipo_reserva: 'grupo',
-    finalidade: 'Trabalho em grupo — História', status: 'pendente',
-    criadoEm: new Date().toISOString()
-  },
-  {
-    id: 7, tipo: 'notebook', userId: 5, userName: 'Prof. Fernanda',
-    data: DB_todayPlus(-1), horario: '07:00 - 08:00', quantidade: 10,
-    turma: '1º Ano A — Arte', obs: 'Uso de editores de imagem',
+    objetivo: 'Introdução ao HTML', incidente: null,
     status: 'confirmado', criadoEm: new Date().toISOString()
   },
   {
+    id: 4, tipo: 'informatica', userId: 5, userName: 'Prof. Fernanda',
+    data: DB_todayPlus(0),
+    periodo: 'tarde', aulaNum: 3, aulaLabel: 'Tarde — 3ª Aula (14:40 – 15:30)',
+    horario: 'Tarde — 3ª Aula (14:40 – 15:30)',
+    turma: '2º Ano A', disciplina: 'Design Gráfico',
+    objetivo: 'Photoshop básico', incidente: null,
+    status: 'pendente', criadoEm: new Date().toISOString()
+  },
+  {
+    id: 5, tipo: 'biblioteca', userId: 1, userName: 'Ana Lima',
+    data: DB_todayPlus(0),
+    periodo: 'manha', aulaNum: 4, aulaLabel: 'Manhã — 4ª Aula (09:50 – 10:40)',
+    horario: 'Manhã — 4ª Aula (09:50 – 10:40)',
+    turma: 'Ana Lima', tipo_reserva: 'individual',
+    finalidade: 'Pesquisa para trabalho', incidente: null,
+    status: 'confirmado', criadoEm: new Date().toISOString()
+  },
+  {
+    id: 6, tipo: 'biblioteca', userId: 4, userName: 'Maria Costa',
+    data: DB_todayPlus(1),
+    periodo: 'manha', aulaNum: 6, aulaLabel: 'Manhã — 6ª Aula (11:30 – 12:20)',
+    horario: 'Manhã — 6ª Aula (11:30 – 12:20)',
+    turma: '2º Ano B', tipo_reserva: 'grupo',
+    finalidade: 'Trabalho em grupo — História', incidente: null,
+    status: 'pendente', criadoEm: new Date().toISOString()
+  },
+  {
+    id: 7, tipo: 'notebook', userId: 5, userName: 'Prof. Fernanda',
+    data: DB_todayPlus(-1),
+    periodo: 'manha', aulaNum: 1, aulaLabel: 'Manhã — 1ª Aula (07:00 – 07:50)',
+    horario: 'Manhã — 1ª Aula (07:00 – 07:50)',
+    quantidade: 10, turma: '1º Ano A — Arte', obs: 'Uso de editores de imagem',
+    incidente: null, status: 'confirmado', criadoEm: new Date().toISOString()
+  },
+  {
     id: 8, tipo: 'biblioteca', userId: 2, userName: 'Prof. Carlos',
-    data: DB_todayPlus(2), horario: '13:00 - 14:00',
+    data: DB_todayPlus(2),
+    periodo: 'tarde', aulaNum: 1, aulaLabel: 'Tarde — 1ª Aula (13:00 – 13:50)',
+    horario: 'Tarde — 1ª Aula (13:00 – 13:50)',
     turma: '3º Ano B', tipo_reserva: 'aula',
-    finalidade: 'Aula de Literatura', status: 'confirmado',
-    criadoEm: new Date().toISOString()
+    finalidade: 'Aula de Literatura', incidente: null,
+    status: 'confirmado', criadoEm: new Date().toISOString()
   },
 ];

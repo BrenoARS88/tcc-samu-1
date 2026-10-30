@@ -843,3 +843,51 @@ textarea { resize: vertical; }
 .leg-blue   { background: var(--info); }
 .leg-green  { background: var(--success); }
 .leg-yellow { background: var(--warning); }
+
+
+/* ---- Incident Box ---- */
+.incident-box {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: #FFFBEB;
+  border: 1.5px solid #FDE68A;
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  transition: border-color var(--transition);
+}
+.incident-box:focus-within { border-color: var(--warning); }
+.incident-box select,
+.incident-box input,
+.incident-box textarea {
+  background: var(--surface);
+  border-color: #FDE68A;
+}
+.incident-box select:focus,
+.incident-box input:focus,
+.incident-box textarea:focus {
+  border-color: var(--warning);
+  box-shadow: 0 0 0 3px rgba(245,158,11,.15);
+}
+
+/* Status incidente */
+.status-aberto      { background: var(--danger-light);  color: #991B1B; }
+.status-aberto::before { background: var(--danger); }
+.status-em_andamento{ background: var(--warning-light); color: #92400E; }
+.status-em_andamento::before { background: var(--warning); }
+.status-resolvido   { background: var(--success-light); color: #065F46; }
+.status-resolvido::before { background: var(--success); }
+
+/* Aula picker badge */
+.aula-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  background: var(--primary-light);
+  color: var(--primary);
+}
+.aula-label.tarde { background: #FFF7ED; color: #C2410C; }

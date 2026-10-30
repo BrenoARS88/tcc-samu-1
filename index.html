@@ -341,34 +341,15 @@
                   <input type="date" id="nb-date" required />
                 </div>
                 <div class="form-group">
-                  <label><i class="fa-solid fa-clock"></i> Horário de Início</label>
-                  <select id="nb-time-start">
-                    <option value="07:00">07:00</option>
-                    <option value="08:00">08:00</option>
-                    <option value="09:00">09:00</option>
-                    <option value="10:00">10:00</option>
-                    <option value="11:00">11:00</option>
-                    <option value="13:00">13:00</option>
-                    <option value="14:00">14:00</option>
-                    <option value="15:00">15:00</option>
-                    <option value="16:00">16:00</option>
-                    <option value="17:00">17:00</option>
+                  <label><i class="fa-solid fa-sun"></i> Período</label>
+                  <select id="nb-periodo" onchange="App.updateAulasSelect('nb-periodo','nb-aula')">
+                    <option value="manha">☀️ Manhã (1ª – 7ª aula)</option>
+                    <option value="tarde">🌤️ Tarde (1ª – 7ª aula)</option>
                   </select>
                 </div>
                 <div class="form-group">
-                  <label><i class="fa-solid fa-clock"></i> Horário de Fim</label>
-                  <select id="nb-time-end">
-                    <option value="08:00">08:00</option>
-                    <option value="09:00">09:00</option>
-                    <option value="10:00">10:00</option>
-                    <option value="11:00">11:00</option>
-                    <option value="12:00">12:00</option>
-                    <option value="14:00">14:00</option>
-                    <option value="15:00">15:00</option>
-                    <option value="16:00">16:00</option>
-                    <option value="17:00">17:00</option>
-                    <option value="18:00">18:00</option>
-                  </select>
+                  <label><i class="fa-solid fa-chalkboard"></i> Aula</label>
+                  <select id="nb-aula"></select>
                 </div>
                 <div class="form-group">
                   <label><i class="fa-solid fa-laptop"></i> Quantidade de Notebooks</label>
@@ -381,6 +362,22 @@
                 <div class="form-group">
                   <label><i class="fa-solid fa-comment"></i> Observação</label>
                   <input type="text" id="nb-obs" placeholder="Opcional" />
+                </div>
+                <div class="form-group form-group-full">
+                  <label><i class="fa-solid fa-triangle-exclamation"></i> Registrar Incidente <span style="color:var(--text-muted);font-weight:400">(opcional)</span></label>
+                  <div class="incident-box">
+                    <select id="nb-inc-tipo">
+                      <option value="">— Sem incidente —</option>
+                      <option value="notebook_danificado">💻 Notebook danificado</option>
+                      <option value="notebook_faltando">📦 Notebook faltando/sumido</option>
+                      <option value="carregador_danificado">🔌 Carregador danificado</option>
+                      <option value="teclado_defeito">⌨️ Teclado/mouse com defeito</option>
+                      <option value="tela_danificada">🖥️ Tela danificada</option>
+                      <option value="outro">⚠️ Outro problema</option>
+                    </select>
+                    <input type="number" id="nb-inc-qtd" min="1" max="30" placeholder="Qtd. afetada" style="display:none" />
+                    <textarea id="nb-inc-descricao" rows="2" placeholder="Descreva o incidente com detalhes..." style="display:none"></textarea>
+                  </div>
                 </div>
                 <div class="form-actions">
                   <button type="submit" class="btn btn-primary">
@@ -406,10 +403,11 @@
                   <thead>
                     <tr>
                       <th>Data</th>
-                      <th>Horário</th>
+                      <th>Período / Aula</th>
                       <th>Qtd</th>
                       <th>Turma/Disciplina</th>
                       <th>Solicitante</th>
+                      <th>Incidente</th>
                       <th>Status</th>
                       <th>Ações</th>
                     </tr>
@@ -457,17 +455,15 @@
                   <input type="date" id="inf-date" required />
                 </div>
                 <div class="form-group">
-                  <label><i class="fa-solid fa-clock"></i> Período</label>
-                  <select id="inf-period">
-                    <option value="07:00-08:00">1º aula (07:00 - 08:00)</option>
-                    <option value="08:00-09:00">2º aula (08:00 - 09:00)</option>
-                    <option value="09:00-10:00">3º aula (09:00 - 10:00)</option>
-                    <option value="10:15-11:15">4º aula (10:15 - 11:15)</option>
-                    <option value="11:15-12:15">5º aula (11:15 - 12:15)</option>
-                    <option value="13:00-14:00">6º aula (13:00 - 14:00)</option>
-                    <option value="14:00-15:00">7º aula (14:00 - 15:00)</option>
-                    <option value="15:00-16:00">8º aula (15:00 - 16:00)</option>
+                  <label><i class="fa-solid fa-sun"></i> Período</label>
+                  <select id="inf-periodo" onchange="App.updateAulasSelect('inf-periodo','inf-aula')">
+                    <option value="manha">☀️ Manhã (1ª – 7ª aula)</option>
+                    <option value="tarde">🌤️ Tarde (1ª – 7ª aula)</option>
                   </select>
+                </div>
+                <div class="form-group">
+                  <label><i class="fa-solid fa-chalkboard"></i> Aula</label>
+                  <select id="inf-aula"></select>
                 </div>
                 <div class="form-group">
                   <label><i class="fa-solid fa-users"></i> Turma</label>
@@ -479,7 +475,24 @@
                 </div>
                 <div class="form-group form-group-full">
                   <label><i class="fa-solid fa-comment"></i> Objetivo da aula</label>
-                  <textarea id="inf-objetivo" placeholder="Descreva brevemente o objetivo da aula..." rows="3"></textarea>
+                  <textarea id="inf-objetivo" placeholder="Descreva brevemente o objetivo da aula..." rows="2"></textarea>
+                </div>
+                <div class="form-group form-group-full">
+                  <label><i class="fa-solid fa-triangle-exclamation"></i> Registrar Incidente <span style="color:var(--text-muted);font-weight:400">(opcional)</span></label>
+                  <div class="incident-box">
+                    <select id="inf-inc-tipo">
+                      <option value="">— Sem incidente —</option>
+                      <option value="computador_danificado">🖥️ Computador danificado</option>
+                      <option value="computador_faltando">📦 Computador faltando/retirado</option>
+                      <option value="teclado_mouse">⌨️ Teclado/mouse com defeito</option>
+                      <option value="monitor_danificado">🖥️ Monitor danificado</option>
+                      <option value="internet_indisponivel">📶 Internet indisponível</option>
+                      <option value="projetor_defeito">📽️ Projetor com defeito</option>
+                      <option value="outro">⚠️ Outro problema</option>
+                    </select>
+                    <input type="number" id="inf-inc-qtd" min="1" max="30" placeholder="Qtd. afetada" style="display:none" />
+                    <textarea id="inf-inc-descricao" rows="2" placeholder="Descreva o incidente com detalhes..." style="display:none"></textarea>
+                  </div>
                 </div>
                 <div class="form-actions">
                   <button type="submit" class="btn btn-primary">
@@ -536,32 +549,15 @@
                   <input type="date" id="bib-date" required />
                 </div>
                 <div class="form-group">
-                  <label><i class="fa-solid fa-clock"></i> Horário de Início</label>
-                  <select id="bib-time-start">
-                    <option value="07:00">07:00</option>
-                    <option value="08:00">08:00</option>
-                    <option value="09:00">09:00</option>
-                    <option value="10:00">10:00</option>
-                    <option value="11:00">11:00</option>
-                    <option value="13:00">13:00</option>
-                    <option value="14:00">14:00</option>
-                    <option value="15:00">15:00</option>
-                    <option value="16:00">16:00</option>
+                  <label><i class="fa-solid fa-sun"></i> Período</label>
+                  <select id="bib-periodo" onchange="App.updateAulasSelect('bib-periodo','bib-aula')">
+                    <option value="manha">☀️ Manhã (1ª – 7ª aula)</option>
+                    <option value="tarde">🌤️ Tarde (1ª – 7ª aula)</option>
                   </select>
                 </div>
                 <div class="form-group">
-                  <label><i class="fa-solid fa-clock"></i> Horário de Fim</label>
-                  <select id="bib-time-end">
-                    <option value="08:00">08:00</option>
-                    <option value="09:00">09:00</option>
-                    <option value="10:00">10:00</option>
-                    <option value="11:00">11:00</option>
-                    <option value="12:00">12:00</option>
-                    <option value="14:00">14:00</option>
-                    <option value="15:00">15:00</option>
-                    <option value="16:00">16:00</option>
-                    <option value="17:00">17:00</option>
-                  </select>
+                  <label><i class="fa-solid fa-chalkboard"></i> Aula</label>
+                  <select id="bib-aula"></select>
                 </div>
                 <div class="form-group">
                   <label><i class="fa-solid fa-user-group"></i> Tipo de Reserva</label>
@@ -578,6 +574,22 @@
                 <div class="form-group">
                   <label><i class="fa-solid fa-comment"></i> Finalidade</label>
                   <input type="text" id="bib-finalidade" placeholder="Ex: Pesquisa, Leitura, Trabalho em grupo" />
+                </div>
+                <div class="form-group form-group-full">
+                  <label><i class="fa-solid fa-triangle-exclamation"></i> Registrar Incidente <span style="color:var(--text-muted);font-weight:400">(opcional)</span></label>
+                  <div class="incident-box">
+                    <select id="bib-inc-tipo">
+                      <option value="">— Sem incidente —</option>
+                      <option value="livro_danificado">📖 Livro danificado/rasgado</option>
+                      <option value="livro_faltando">📚 Livro faltando/sumido</option>
+                      <option value="computador_danificado">🖥️ Computador da biblioteca danificado</option>
+                      <option value="mobiliario_danificado">🪑 Mobiliário danificado</option>
+                      <option value="barulho_excessivo">🔊 Barulho excessivo relatado</option>
+                      <option value="outro">⚠️ Outro problema</option>
+                    </select>
+                    <input type="number" id="bib-inc-qtd" min="1" placeholder="Qtd. afetada" style="display:none" />
+                    <textarea id="bib-inc-descricao" rows="2" placeholder="Descreva o incidente com detalhes..." style="display:none"></textarea>
+                  </div>
                 </div>
                 <div class="form-actions">
                   <button type="submit" class="btn btn-primary">
@@ -696,6 +708,7 @@
           <div class="admin-tabs">
             <button class="admin-tab active" data-tab="overview">Visão Geral</button>
             <button class="admin-tab" data-tab="agendamentos">Agendamentos</button>
+            <button class="admin-tab" data-tab="incidentes">Incidentes</button>
             <button class="admin-tab" data-tab="usuarios">Usuários</button>
             <button class="admin-tab" data-tab="recursos">Recursos</button>
           </div>
@@ -782,6 +795,49 @@
                       </tr>
                     </thead>
                     <tbody id="admin-tbody"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Incidentes Admin -->
+          <div id="admin-tab-incidentes" class="admin-tab-content hidden">
+            <div class="card mt-4">
+              <div class="card-header">
+                <h3><i class="fa-solid fa-triangle-exclamation"></i> Incidentes Registrados</h3>
+                <div class="filter-group">
+                  <select id="inc-filter-tipo">
+                    <option value="all">Todos os locais</option>
+                    <option value="notebook">Notebooks</option>
+                    <option value="informatica">Informática</option>
+                    <option value="biblioteca">Biblioteca</option>
+                  </select>
+                  <select id="inc-filter-status">
+                    <option value="all">Todos os status</option>
+                    <option value="aberto">Aberto</option>
+                    <option value="em_andamento">Em andamento</option>
+                    <option value="resolvido">Resolvido</option>
+                  </select>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="table-wrapper">
+                  <table class="data-table">
+                    <thead>
+                      <tr>
+                        <th>Local</th>
+                        <th>Data</th>
+                        <th>Aula</th>
+                        <th>Tipo</th>
+                        <th>Qtd</th>
+                        <th>Descrição</th>
+                        <th>Reportado por</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                      </tr>
+                    </thead>
+                    <tbody id="incidentes-tbody"></tbody>
                   </table>
                 </div>
               </div>
